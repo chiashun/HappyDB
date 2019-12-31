@@ -1,7 +1,7 @@
 package com.example.happydb
 
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -39,10 +39,23 @@ private  lateinit var feelingViewModel: FeelingViewModel
         }
         )
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        fab.setOnClickListener {
+           val intent=Intent(this,AddActivity::class.java)
+            startActivityForResult(intent,REQUEST_CODE)
+
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+            if(requestCode== REQUEST_CODE){
+                val _mode=data?.getIntExtra(AddActivity.Extra_Mode,0)
+                val _remark=data?.getStringExtra(AddActivity.Extra_REMARK)
+                val feeling=Feeling(id=0,mode = _mode!!,remarks = _remark!!)
+            feelingViewModel.insertFeeling(feeling)
+            }
+
+    super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -59,5 +72,8 @@ private  lateinit var feelingViewModel: FeelingViewModel
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    companion object{
+        const val REQUEST_CODE=1
     }
 }

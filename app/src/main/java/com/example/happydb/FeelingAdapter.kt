@@ -31,8 +31,8 @@ class FeelingAdapter internal constructor (
         holder.textViewDate.text=SimpleDateFormat("yyyy.MM.dd.HH:MM").format(feelingRec.created_at)
     }
     fun  setFeeling(feeling: List<Feeling>){
-        this.feelings=feelings
-
+        this.feelings=feeling
+        notifyDataSetChanged()
 
     }
 
